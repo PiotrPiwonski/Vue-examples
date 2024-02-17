@@ -1,40 +1,47 @@
 <template>
   <div>
-    <h1>{{price}}$</h1>
-    <button @click="makeOrder">Make naext order</button>
-    <p>Quantity: {{quantity}}</p>
-    <p>Order total price: {{totalPrice}}</p>
-    <p>Tax: {{tax}}</p>
+    <p>You have <strong>{{shares}}</strong> shares and their value <strong>{{sharesValue}}$</strong>, because share price is <strong>{{sharePrice}}$</strong></p>
+    <button @click="changeNumberOfShares(1)">Buy one share</button>
+    <button @click="changeNumberOfShares(5)">Buy five shares</button>
+    <button @click="changeNumberOfShares(-1)">Sell one share</button>
+    <button @click="changeNumberOfShares(-5)">Sell five shares</button>
   </div>
 </template>
 
 <script>
-import { computed } from "vue";
-import { reactive, toRefs } from "vue";
+import {computed, ref, watch} from "vue";
 
 export default {
   name: 'MyAwsomeComponet',
   setup() {
+    const shares = ref(15);
+    const sharePrice = ref(20);
+    const sharesValue = computed(() => shares.value * sharePrice.value);
 
-    // const quantity = ref(0);
-    // const price = ref(100);
-    // const totalPrice = computed(() => price.value * quantity.value);
-    // const tax = computed(() => totalPrice.value * 0.23);
+    function changeNumberOfShares(number) {
+      if(shares.value + number >= 0) {
+        shares.value += number;
+      }
 
-    const state = reactive({
-      quantity: 0,
-      price: 100,
-      totalPrice: computed(() => state.price * state.quantity),
-      tax: computed(() => state.totalPrice * 0.23)
+    }
+    // Obserwuje czy coś się zmienia dynamicznie
+    // w nawiasach [] możemy podać więcej niż 1 zmienną
+    watch([shares], ([shares], [prevShares])  => {
+      console.log('You sell or buy shares');
+      console.log(shares, prevShares);
+      shares > prevShares ? getPrice(1, 5) : getPrice(-5, -1);
     })
 
-    function makeOrder() {
-      state.quantity++;
-      //totalPrice.value = quantity.value * price.value;
-      //tax.value = totalPrice.value * 0.23;
+    function getPrice(min, max) {
+      const priceDiff = Math.floor(Math.random() * (max - min) + min);
+      if(sharePrice.value + priceDiff >= 0) {
+        sharePrice.value += priceDiff;
+      }
+
+
     }
 
-    return { makeOrder, ...toRefs(state) };
+    return {shares, sharePrice, sharesValue, changeNumberOfShares};
   }
 }
 </script>
