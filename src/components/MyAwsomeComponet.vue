@@ -1,115 +1,81 @@
 <template>
-  <ItemsList :items="candidates"/>
+  <div>
+    <p>Count: {{count}}</p>
+    <button @click="increment">Increment</button>
+    <MyAwesomeComponentChild v-if="count < 3"/>
+  </div>
 </template>
 
 <script>
-import {computed, ref} from "vue";
-import ItemsList from "@/components/items/ItemsList.vue";
+import {
+  onBeforeMount,
+  onMounted,
+  onBeforeUpdate,
+  onUpdated,
+  onBeforeUnmount,
+  onUnmounted,
+  ref,
+  onRenderTracked, onRenderTriggered
+} from "vue";
+import MyAwesomeComponentChild from "@/components/MyAwesomeComponentChild.vue";
 
 export default {
   name: 'MyAwsomeComponet',
   components: {
-    ItemsList
+    MyAwesomeComponentChild
   },
+
   setup() {
-    const candidates = ref([
-      {
-        id: 1,
-        firsName: 'Robert',
-        lastName: 'Biedroń',
-        age: 44,
-        party: 'Wiosna Roberta Biedronia',
-        opinionPool: 4,
-      },
-      {
-        id: 2,
-        firsName: 'Krzysztof',
-        lastName: 'Bosak',
-        age: '37',
-        party: 'Konfederacja Wolność i Niepodległość',
-        opinionPool: 7,
-      },
-      {
-        id: 3,
-        firsName: 'Andrzej',
-        lastName: 'Duda',
-        age: 47,
-        party: null,
-        opinionPool: 49,
-      },
-      {
-        id: 4,
-        firsName: 'Szymon',
-        lastName: 'Hołownia',
-        age: 43,
-        party: null,
-        opinionPool: 22,
-      },
-      {
-        id: 5,
-        firsName: 'Marek',
-        lastName: 'Jakubiak',
-        age: 61,
-        party: 'Federacja dla Rzeczypospolitej',
-        opinionPool: null,
-      },
-      {
-        id: 6,
-        firsName: 'Małgorzata',
-        lastName: 'Kidawa-Błońska',
-        age: 63,
-        party: 'Platforma Obywatelska',
-        opinionPool: 5,
-      },
-      {
-        id: 7,
-        firsName: 'Władysław',
-        lastName: 'Kosiniak-Kamysz',
-        age: 38,
-        party: 'Polskie Stronnicwo Ludowe',
-        opinionPool: 12,
-      },
-      {
-        id: 8,
-        firsName: 'Mirosłąw',
-        lastName: 'Piotrowski',
-        age: 64,
-        party: 'Ruch Prawdziwa Europa',
-        opinionPool: null,
-      },
-      {
-        id: 9,
-        firsName: 'Paweł',
-        lastName: 'Tanajno',
-        age: 44,
-        party: null,
-        opinionPool: 1,
-      },
-      {
-        id: 10,
-        firsName: 'Stanisław',
-        lastName: 'Żółtek',
-        age: 64,
-        party: 'Kongres Nowej Prawicy',
-        opinionPool: null,
-      },
-    ])
 
-    const candidatesWithParty = computed(() => candidates.value.filter(({party}) => party))
+    const count = ref(0);
 
+    function increment () {
+      count.value++;
+    }
 
-    return { candidates, candidatesWithParty }
+    console.log('setup')
+
+    onBeforeMount(() => {
+      console.log('onBeforeMount');
+    });
+    onMounted(() => {
+      console.log('onMounted');
+    });
+    onBeforeUpdate(() => {
+      console.log('onBeforeUpdate');
+    });
+    onUpdated(() => {
+      console.log('onUpdated');
+    });
+    onBeforeUnmount(() => {
+      console.log('onBeforeUnmount');
+    });
+    onUnmounted(() => {
+      console.log('onUnmounted');
+    });
+
+    //onActivated
+    //onDeactivated
+
+    //onErrorCaptured
+
+    onRenderTracked((e) => {
+      console.log('onRenderTracked', e)
+    });
+
+    onRenderTriggered((e) => {
+      console.log('onRenderTriggered', e)
+    });
+
+    return {count, increment};
   }
 
 
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <!--Jak mamy do styli dodany scoped wtedy style obowiązują tylko w tym komponencie-->
-<style lang="scss" scoped>
-.siema {
-  background-color: red;
-}
+<style lang="scss">
+
 </style>
