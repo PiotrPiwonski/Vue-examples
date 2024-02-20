@@ -1,81 +1,46 @@
 <template>
-  <div>
-    <p>Count: {{count}}</p>
-    <button @click="increment">Increment</button>
-    <MyAwesomeComponentChild v-if="count < 3"/>
+  <div class="container">
+    <AwsomeButton :text="'hello'">
+      <div class="squere"></div>
+    </AwsomeButton>
+    <AwsomeButton :text="'hello'">
+      <template #image>
+        <img src="../assets/logo.png" alt="logo" class="image" />
+      </template>
+      <template #text>
+        <h1>tratata</h1>
+      </template>
+    </AwsomeButton>
   </div>
 </template>
 
 <script>
-import {
-  onBeforeMount,
-  onMounted,
-  onBeforeUpdate,
-  onUpdated,
-  onBeforeUnmount,
-  onUnmounted,
-  ref,
-  onRenderTracked, onRenderTriggered
-} from "vue";
-import MyAwesomeComponentChild from "@/components/MyAwesomeComponentChild.vue";
+import AwsomeButton from "./AwsomeButton";
 
 export default {
-  name: 'MyAwsomeComponet',
+  name: "MyAwsomeComponent",
   components: {
-    MyAwesomeComponentChild
-  },
-
-  setup() {
-
-    const count = ref(0);
-
-    function increment () {
-      count.value++;
-    }
-
-    console.log('setup')
-
-    onBeforeMount(() => {
-      console.log('onBeforeMount');
-    });
-    onMounted(() => {
-      console.log('onMounted');
-    });
-    onBeforeUpdate(() => {
-      console.log('onBeforeUpdate');
-    });
-    onUpdated(() => {
-      console.log('onUpdated');
-    });
-    onBeforeUnmount(() => {
-      console.log('onBeforeUnmount');
-    });
-    onUnmounted(() => {
-      console.log('onUnmounted');
-    });
-
-    //onActivated
-    //onDeactivated
-
-    //onErrorCaptured
-
-    onRenderTracked((e) => {
-      console.log('onRenderTracked', e)
-    });
-
-    onRenderTriggered((e) => {
-      console.log('onRenderTriggered', e)
-    });
-
-    return {count, increment};
+    AwsomeButton
   }
-
-
-}
+};
 </script>
 
-
-<!--Jak mamy do styli dodany scoped wtedy style obowiązują tylko w tym komponencie-->
 <style lang="scss">
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.image {
+  width: 20px;
+  height: 20px;
+}
 
+.squere {
+  width: 50px;
+  height: 50px;
+  background-color: red;
+}
 </style>
