@@ -1,41 +1,32 @@
 <template>
   <div class="container">
-    <div v-if="error" class="error">
-      Something went wrong <br>
-      {{error}}
-    </div>
-    <Suspense v-else>
-      <template #default>
-        <StarshipsList/>
-      </template>
-      <template #fallback>
-        <AppLoader/>
-      </template>
-    </Suspense>
-
+    <AwsomeButton text="Log in" @click="isModalVisible = true"/>
+    <teleport to="#modal">
+      <AwsomeModal v-show="isModalVisible"/>
+    </teleport>
+    <AwsomeFooter/>
   </div>
 </template>
 
 <script>
-import StarshipsList from "@/components/StarshipsList.vue";
-import AppLoader from "@/components/AppLoader.vue";
-import {onErrorCaptured, ref} from "vue";
+import AwsomeButton from "@/components/AwsomeButton.vue";
+import AwsomeFooter from "@/components/AwsomeFooter.vue";
+import AwsomeModal from "@/components/AwsomeModal.vue";
+import {ref} from "vue";
 
 export default {
   name: "MyAwsomeComponent",
   components: {
-    StarshipsList,
-    AppLoader
+    AwsomeButton,
+    AwsomeFooter,
+    AwsomeModal
   },
   setup() {
-    const error = ref(null);
+    const isModalVisible = ref(false);
 
-    onErrorCaptured(e => {
-      error.value = e;
-      return true;
-    })
 
-    return {error}
+
+    return {isModalVisible}
   }
 };
 </script>
@@ -47,8 +38,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #000;
-  color: #fcd711;
 }
 .image {
   width: 20px;
