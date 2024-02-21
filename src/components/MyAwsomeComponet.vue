@@ -1,26 +1,41 @@
 <template>
   <div class="container">
-    <AwsomeButton :text="'hello'">
-      <div class="squere"></div>
-    </AwsomeButton>
-    <AwsomeButton :text="'hello'">
-      <template #image>
-        <img src="../assets/logo.png" alt="logo" class="image" />
+    <div v-if="error" class="error">
+      Something went wrong <br>
+      {{error}}
+    </div>
+    <Suspense v-else>
+      <template #default>
+        <StarshipsList/>
       </template>
-      <template #text>
-        <h1>tratata</h1>
+      <template #fallback>
+        <AppLoader/>
       </template>
-    </AwsomeButton>
+    </Suspense>
+
   </div>
 </template>
 
 <script>
-import AwsomeButton from "./AwsomeButton";
+import StarshipsList from "@/components/StarshipsList.vue";
+import AppLoader from "@/components/AppLoader.vue";
+import {onErrorCaptured, ref} from "vue";
 
 export default {
   name: "MyAwsomeComponent",
   components: {
-    AwsomeButton
+    StarshipsList,
+    AppLoader
+  },
+  setup() {
+    const error = ref(null);
+
+    onErrorCaptured(e => {
+      error.value = e;
+      return true;
+    })
+
+    return {error}
   }
 };
 </script>
@@ -32,6 +47,8 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #000;
+  color: #fcd711;
 }
 .image {
   width: 20px;
@@ -42,5 +59,9 @@ export default {
   width: 50px;
   height: 50px;
   background-color: red;
+}
+
+.error {
+  color: #cd3727;
 }
 </style>
