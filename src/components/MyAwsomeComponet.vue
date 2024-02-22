@@ -1,72 +1,49 @@
 <template>
   <div class="container">
-    <button
-        class="button"
-    @click="handleMouseEvent"
-    @dblclick="handleMouseEvent"
-    @mousedown="handleMouseEvent"
-    @mouseup="handleMouseEvent"
-    @mousemove.once="handleMouseEvent"
-    @mouseover="handleMouseEvent"
-    @mouseleave="handleMouseEvent"
-    @mousewheel="handleMouseEvent"
-    @mouseout="handleMouseEvent"
-    @contextmenu.prevent="handleMouseEvent"
-    >Button</button>
-    <form class="form" @submit.prevent="sendMessage">
-      <input
-          type="text"
-          class="input"
-          placeholder="Type something"
-          @keypress="handleKeyEvent"
-          @keydown.shift.alt.exact="handleKeyEvent"
-          @keyup="handleKeyEvent"
-      >
-      <button class="button">Submit</button>
-    </form>
-    <p v-show="isMessageSend">Message Send</p>
-
-    <div class="outer" @click="handleMouseEvent">
-      <div class="inner" @click.stop="handleMouseEvent"></div>
-    </div>
-    <ul>
-      <li v-for="(event, index) in mouseEventsArray" :key="index">{{event}}</li>
-    </ul>
-    <ul>
-      <li v-for="({key, type}, index) in keyEventsArray" :key="index">{{key}} {{type}}</li>
-    </ul>
+    <AddToCardButton @add-item-to-cart="increaseTheNumberOfItems"/>
+    <BaseNotification
+        :isVisible="isNotificationVisible"
+        :message="notificationText"
+        @hide-notification="hideNotification"
+    />
   </div>
 </template>
 
 <script>
-
-
-import {ref} from "vue";
+import AddToCardButton from "@/components/AddToCardButton.vue";
+import BaseNotification from "@/components/BaseNotification.vue";
+import {computed, ref} from 'vue';
 
 export default {
-  name: "MyAwsomeComponent",
+  name: 'MyAwsomeComponent',
   components: {
-
+    BaseNotification,
+    AddToCardButton
   },
   setup() {
-    const mouseEventsArray = ref([]);
-    const keyEventsArray = ref([]);
-    const isMessageSend = ref(false);
+    const isNotificationVisible = ref(false);
+    const numberOfItems = ref(0);
+    const notificationText = computed(
+        () => `Number of items in cart: ${numberOfItems.value}`
+    );
 
-    function sendMessage() {
-      isMessageSend.value = true
+    function increaseTheNumberOfItems(payload) {
+      // numberOfItems.value++;
+      numberOfItems.value += payload.qty;
+      isNotificationVisible.value = true;
     }
 
-    function handleKeyEvent({type, key}) {
-      keyEventsArray.value = [...keyEventsArray.value, {key, type}]
+    function hideNotification() {
+      isNotificationVisible.value = false;
     }
 
-    function handleMouseEvent({type}) {
-      mouseEventsArray.value = [...mouseEventsArray.value, type]
-    }
-
-    return {handleMouseEvent, mouseEventsArray, keyEventsArray, handleKeyEvent, sendMessage, isMessageSend}
-  }
+    return {
+      isNotificationVisible,
+      increaseTheNumberOfItems,
+      notificationText,
+      hideNotification,
+    };
+  },
 };
 </script>
 
@@ -76,31 +53,14 @@ export default {
   height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
 }
+
 .input {
   margin-top: 10px;
 }
-.button {
-  cursor: pointer;
-  background-color: transparent;
-  color: #000;
-  border: 3px solid #000;
-  padding: 10px 20px;
-  font-size: 24px;
-  outline: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.1s ease-in, color 0.1s ease-in,
-  border-color 0.1s ease-in;
-  margin-top: 10px;
-  &:hover {
-    background-color: #000;
-    color: #fff;
-    border-color: #000;
-  }
-}
+
 .outer {
   width: 100px;
   height: 100px;
@@ -110,11 +70,13 @@ export default {
   background-color: #42b883;
   margin-top: 10px;
 }
+
 .inner {
   width: 50px;
   height: 50px;
   background-color: #35495e;
 }
+
 .form {
   display: flex;
   flex-direction: column;
