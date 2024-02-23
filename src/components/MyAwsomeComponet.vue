@@ -1,49 +1,38 @@
 <template>
   <div class="container">
-    <AddToCardButton @add-item-to-cart="increaseTheNumberOfItems"/>
-    <BaseNotification
-        :isVisible="isNotificationVisible"
-        :message="notificationText"
-        @hide-notification="hideNotification"
+    <BaseInput
+        name="input"
+        v-model:first-name="firstName"
+        v-model:last-name="lastName"
     />
+    <p class="result">{{text}}</p>
+    <p class="result">{{firstName}}</p>
+    <p class="result">{{lastName}}</p>
+    <button class="button" @click="revertText">Revert text</button>
   </div>
 </template>
 
 <script>
-import AddToCardButton from "@/components/AddToCardButton.vue";
-import BaseNotification from "@/components/BaseNotification.vue";
-import {computed, ref} from 'vue';
+import BaseInput from "@/components/BaseInput.vue";
+import {ref} from "vue";
 
 export default {
   name: 'MyAwsomeComponent',
   components: {
-    BaseNotification,
-    AddToCardButton
+    BaseInput
   },
   setup() {
-    const isNotificationVisible = ref(false);
-    const numberOfItems = ref(0);
-    const notificationText = computed(
-        () => `Number of items in cart: ${numberOfItems.value}`
-    );
+    const text = ref('');
+    const firstName = ref('');
+    const lastName = ref('');
 
-    function increaseTheNumberOfItems(payload) {
-      // numberOfItems.value++;
-      numberOfItems.value += payload.qty;
-      isNotificationVisible.value = true;
+    function revertText() {
+      (firstName.value = firstName.value.split('').reverse().join(''));
+      (lastName.value = lastName.value.split('').reverse().join(''));
     }
 
-    function hideNotification() {
-      isNotificationVisible.value = false;
-    }
-
-    return {
-      isNotificationVisible,
-      increaseTheNumberOfItems,
-      notificationText,
-      hideNotification,
-    };
-  },
+    return {text, revertText, firstName, lastName}
+  }
 };
 </script>
 
@@ -53,32 +42,29 @@ export default {
   height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
 }
-
-.input {
-  margin-top: 10px;
-}
-
-.outer {
-  width: 100px;
-  height: 100px;
+.button {
+  cursor: pointer;
+  background-color: transparent;
+  color: #000;
+  border: 3px solid #000;
+  padding: 10px 20px;
+  font-size: 24px;
+  outline: none;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #42b883;
+  transition: background-color 0.1s ease-in, color 0.1s ease-in,
+  border-color 0.1s ease-in;
   margin-top: 10px;
+  &:hover {
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+  }
 }
-
-.inner {
-  width: 50px;
-  height: 50px;
-  background-color: #35495e;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
+.result {
+  margin-top: 100px;
 }
 </style>
