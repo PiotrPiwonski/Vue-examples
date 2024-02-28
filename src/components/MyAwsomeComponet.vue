@@ -1,70 +1,32 @@
 <template>
   <div class="container">
-    <BaseInput
-        name="input"
-        v-model:first-name="firstName"
-        v-model:last-name="lastName"
-    />
-    <p class="result">{{text}}</p>
-    <p class="result">{{firstName}}</p>
-    <p class="result">{{lastName}}</p>
-    <button class="button" @click="revertText">Revert text</button>
+    <h1 class="header">Api comparision</h1>
+    <div class="components">
+      <CompositionAPI component-name="Composition component" />
+      <OptionsAPI component-name="Options component" />
+    </div>
   </div>
 </template>
 
 <script>
-import BaseInput from "@/components/BaseInput.vue";
-import {ref} from "vue";
-
+import CompositionAPI from './CompositionAPI';
+import OptionsAPI from './OptionsAPI';
 export default {
   name: 'MyAwsomeComponent',
   components: {
-    BaseInput
+    CompositionAPI,
+    OptionsAPI,
   },
-  setup() {
-    const text = ref('');
-    const firstName = ref('');
-    const lastName = ref('');
-
-    function revertText() {
-      (firstName.value = firstName.value.split('').reverse().join(''));
-      (lastName.value = lastName.value.split('').reverse().join(''));
-    }
-
-    return {text, revertText, firstName, lastName}
-  }
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .container {
   width: 100vw;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  margin: 20px;
 }
-.button {
-  cursor: pointer;
-  background-color: transparent;
-  color: #000;
-  border: 3px solid #000;
-  padding: 10px 20px;
-  font-size: 24px;
-  outline: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.1s ease-in, color 0.1s ease-in,
-  border-color 0.1s ease-in;
-  margin-top: 10px;
-  &:hover {
-    background-color: #000;
-    color: #fff;
-    border-color: #000;
-  }
-}
-.result {
-  margin-top: 100px;
+.header {
+  margin-bottom: 20px;
 }
 </style>
