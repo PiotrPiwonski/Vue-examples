@@ -1,32 +1,28 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> |
-    <router-link to="/contact">Contact</router-link>
-  </nav>
-  <router-view/>
-  <router-view/>
+  <div class="app">
+   <header class="header">
+     <router-link :to="{path: '/'}" class="header__link">
+       <h1>Star Wars people List</h1>
+     </router-link>
+
+   </header>
+    <router-view/>
+  </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+<style lang="scss">
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.header {
   text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+  text-transform: uppercase;
+  &__link {
+    color: #fcd711;
+    text-decoration: none;
+  }
 }
 </style>
