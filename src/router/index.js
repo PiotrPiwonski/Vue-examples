@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from "@/views/HomePage.vue";
 import ItemPage from "@/views/ItemPage.vue";
+import NotFoundPage from "@/views/NotFoundPage.vue";
 
 
 const routes = [
@@ -14,6 +15,11 @@ const routes = [
     name: 'ItemPage',
     component: ItemPage,
     props: true,
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'NotFoundPage',
+    component: NotFoundPage,
   },
 ]
 
