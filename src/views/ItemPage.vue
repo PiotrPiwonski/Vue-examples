@@ -1,9 +1,6 @@
 <template>
   <section class="wrapper">
-    <div v-if="error">
-      {{error}}
-    </div>
-    <Suspense v-else>
+    <Suspense>
       <template #default>
         <div>
           <ItemDetails :id="id"/>
@@ -19,7 +16,6 @@
 <script>
 import ItemDetails from "@/components/ItemDetails.vue";
 import BaseLoader from "@/components/BaseLoader.vue";
-import {onErrorCaptured, ref} from "vue";
 
 export default {
   name: 'ItemPage',
@@ -35,13 +31,8 @@ export default {
   },
 
   setup() {
-    const error = ref(null);
 
-    onErrorCaptured((e) => {
-      error.value = e
-    })
-
-    return { error }
+    return {  }
   },
 }
 </script>
