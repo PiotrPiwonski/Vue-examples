@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomePage from "@/views/HomePage.vue";
+import MyAwsomeComponent from "@/components/MyAwsomeComponet.vue";
 import ItemPage from "@/views/ItemPage.vue";
 import NotFoundPage from "@/views/NotFoundPage.vue";
 
@@ -7,8 +7,8 @@ import NotFoundPage from "@/views/NotFoundPage.vue";
 const routes = [
   {
     path: '/',
-    name: 'HomePage',
-    component: HomePage,
+    name: 'MyAwsomeComponent',
+    component: MyAwsomeComponent,
   },
   {
     path: '/item/:id',

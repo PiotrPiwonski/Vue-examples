@@ -13,7 +13,7 @@
 <style lang="scss">
 body {
   margin: 0;
-  background: #000;
+  background: #fff;
   color: #fff;
   font-family: Arial, Helvetica, sans-serif;
 }
