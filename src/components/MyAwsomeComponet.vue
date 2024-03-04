@@ -1,32 +1,76 @@
 <template>
   <div class="container">
-    <h1 class="header">Api comparision</h1>
-    <div class="components">
-      <CompositionAPI component-name="Composition component" />
-      <OptionsAPI component-name="Options component" />
-    </div>
+    <AddToCardButton @add-item-to-cart="increaseTheNumberOfItems" />
+    <BaseNotification
+        :isVisible="isNotificationVisible"
+        :message="notificationText"
+        @hide-notification="hideNotification"
+    />
   </div>
 </template>
 
 <script>
-import CompositionAPI from './CompositionAPI';
-import OptionsAPI from './OptionsAPI';
+import BaseNotification from './BaseNotification';
+import AddToCardButton from './AddToCardButton';
+import { computed, ref } from 'vue';
 export default {
-  name: 'MyAwsomeComponent',
+  name: 'MyAwesomeComponent',
   components: {
-    CompositionAPI,
-    OptionsAPI,
+    BaseNotification,
+    AddToCardButton,
+  },
+  setup() {
+    const isNotificationVisible = ref(false);
+    const numberOfItems = ref(0);
+    const notificationText = computed(
+        () => `Number of items in cart: ${numberOfItems.value}`
+    );
+    function increaseTheNumberOfItems({ qty }) {
+      // numberOfItems.value++;
+      numberOfItems.value += qty;
+      isNotificationVisible.value = true;
+    }
+    function hideNotification() {
+      isNotificationVisible.value = false;
+    }
+    return {
+      isNotificationVisible,
+      increaseTheNumberOfItems,
+      notificationText,
+      hideNotification,
+    };
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .container {
   width: 100vw;
   height: 100vh;
-  margin: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
-.header {
-  margin-bottom: 20px;
+.input {
+  margin-top: 10px;
+}
+.outer {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #42b883;
+  margin-top: 10px;
+}
+.inner {
+  width: 50px;
+  height: 50px;
+  background-color: #35495e;
+}
+.form {
+  display: flex;
+  flex-direction: column;
 }
 </style>

@@ -7,11 +7,13 @@
 <script>
 export default {
   name: 'AddToCardButton',
+  emits: {'add-item-to-cart': ({name, qty}) =>
+        typeof qty === 'number' && typeof name === 'string'},
   setup(props, { emit }) {
     function addItem() {
-      // emit('add-item-to-cart');
+      //emit('add-item-to-cart');
       // emit('add-item-to-cart', 3);
-      emit('add-item-to-cart', { name: 'product', qty: 2 });
+     emit('add-item-to-cart', { name: 'product', qty: 2 });
     }
     return { addItem };
   },
